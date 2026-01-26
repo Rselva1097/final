@@ -6,7 +6,6 @@ const url='/products';
 const allProductsQuery=(queryParam)=>{
 const {search,category,company,sort,price,shipping,page}=queryParam;
 
-
   return {
     queryKey:[
       'products',
@@ -28,8 +27,6 @@ export const loader=(queryClient)=> async ({request})=>{
 
   const params=Object.fromEntries([...new URL(request.url).searchParams.entries()]);
 
-  console.log('params : ',params);
-  
   const response=await queryClient.ensureQueryData(allProductsQuery(params));
 
   const products=response.data.data;

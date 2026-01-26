@@ -12,10 +12,8 @@ const PaginationContainer = () => {
 
   const pages=Array.from({length:pageCount},(_,index)=>index+1);
 
-  console.log('pages : ',pages);
 
   const handlePageChange=(newPage)=>{
-    
     const searchParams=new URLSearchParams(search);
     searchParams.set('page',newPage);
     navigate(`${pathname}?${searchParams.toString()}`)
