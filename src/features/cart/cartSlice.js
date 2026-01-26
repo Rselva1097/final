@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import Filters from '../../components/Filters';
 
 
 const defaultState = {
@@ -49,9 +50,16 @@ const cartSlice = createSlice({
     },
     removeItem:(state,action)=>{
        console.log('remove item ');
-       
+       const {cardID}=action.payload;
 
-    
+       const itemToRemove=state.cartItems.find((item)=> item.cartID === cardID);
+       state.cartItems=state.cartItems.filter((item)=> item.cardID !== cardID);
+
+       state.numItemsInCart-=itemToRemove.amount;
+       state.cartTotal-=itemToRemove.amount * itemToRemove.price;
+       state.orderTotal-=(state.cartTotal + state.shipping + state.tax);
+       localStorage.setItem('cartItems',JSON.stringify(state));
+        toast.success('Item removed from cart ');
     },
     editItem:()=>{
         console.log('edit item ');
