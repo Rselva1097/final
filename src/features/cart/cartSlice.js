@@ -11,22 +11,30 @@ const defaultState = {
   orderTotal: 0,
 };
  
+const getCartFromLocalStorage=()=>{
+  const cart=localStorage.getItem('cartItems');
+  return cart ? JSON.parse(cart) : defaultState;
+}
 
 console.log('create slice :',createSlice);
 
 
 const cartSlice = createSlice({
   name: 'cart',
-  initialState:defaultState,
+  initialState:getCartFromLocalStorage(),
   reducers:{
     addItem:(state,action)=>{
 
       const {product}=action.payload;
 
-      state.numItemsInCart+=product.amount;
+      const exisitingItem=state.cartItems.find((item)=> item.cardID===product.cardID);
+     
+      if(exisitingItem)state.numItemsInCart+=product.amount;
+      else state.cartItems.push(product);
+
       state.cartTotal+=product.amount * product.price;
       state.orderTotal+=state.cartTotal + state.shipping + state.tax;
-      state.cartItems.push(product);
+      localStorage.setItem('cartItems',JSON.stringify(state))
       toast.success('Item added to cart');
     },
     clearCart:()=>{
