@@ -49,7 +49,6 @@ const cartSlice = createSlice({
        toast.success('Items in the cart is cleared ');
     },
     removeItem:(state,action)=>{
-       console.log('remove item ');
        const {cardID}=action.payload;
 
        const itemToRemove=state.cartItems.find((item)=> item.cartID === cardID);
@@ -59,10 +58,19 @@ const cartSlice = createSlice({
        state.cartTotal-=itemToRemove.amount * itemToRemove.price;
        state.orderTotal-=(state.cartTotal + state.shipping + state.tax);
        localStorage.setItem('cartItems',JSON.stringify(state));
-        toast.success('Item removed from cart ');
+       toast.success('Item removed from cart ');
     },
-    editItem:()=>{
-        console.log('edit item ');
+    editItem:(state,action)=>{
+        const {editItemID,amount}=action.payload;
+        const editItem=state.cartItems.find((item)=> item.cardID === editItemID);
+
+        state.numItemsInCart-=editItem.amount + amount;
+        editItem.amount=amount;
+        state.cartItems=state.cartItems.filter((item)=> item.cardID !== editItemID);
+        state.cartItems.push(editItem);
+
+        localStorage.setItem('cartItems',JSON.stringify(state));
+        toast.success('Item quantity updated ');
     }
   }
    
