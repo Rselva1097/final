@@ -29,20 +29,28 @@ const cartSlice = createSlice({
 
       const exisitingItem=state.cartItems.find((item)=> item.cardID===product.cardID);
      
-      if(exisitingItem)state.numItemsInCart+=product.amount;
+      if(exisitingItem)state.amount+=product.amount;
       else state.cartItems.push(product);
 
+      state.numItemsInCart+=product.amount;
       state.cartTotal+=product.amount * product.price;
       state.orderTotal+=state.cartTotal + state.shipping + state.tax;
       localStorage.setItem('cartItems',JSON.stringify(state))
-      toast.success('Item added to cart');
+      toast.success('Item added to cart ');
     },
-    clearCart:()=>{
-       console.log('clear cart ');
+    clearCart:(state)=>{
+       state.cartItems=[];
+       state.numItemsInCart=0;
+       state.cartTotal=0;
+       state.orderTotal=0;
+       localStorage.setItem('cartItems',JSON.stringify(state))
 
+       toast.success('Items in the cart is cleared ');
     },
-    removeItem:()=>{
+    removeItem:(state,action)=>{
        console.log('remove item ');
+       
+
     
     },
     editItem:()=>{
