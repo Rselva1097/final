@@ -18,7 +18,7 @@ const prodUrl='https://strapi-store-server.onrender.com/api'
  }
 
 
- const generateAmountOptions=(number)=>{
+ export const generateAmountOptions=(number)=>{
 
   return Array.from({length:number},(_,index)=>{
     const amount=index + 1;

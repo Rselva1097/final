@@ -1,6 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import Filters from '../../components/Filters';
 
 
 const defaultState = {
@@ -50,8 +49,8 @@ const cartSlice = createSlice({
     },
     removeItem:(state,action)=>{
        const {cardID}=action.payload;
-
-       const itemToRemove=state.cartItems.find((item)=> item.cartID === cardID);
+       const itemToRemove=state.cartItems.find((item)=> item.cardID === cardID);
+       
        state.cartItems=state.cartItems.filter((item)=> item.cardID !== cardID);
 
        state.numItemsInCart-=itemToRemove.amount;
@@ -73,7 +72,6 @@ const cartSlice = createSlice({
         toast.success('Item quantity updated ');
     }
   }
-   
 });
 
 console.log('cart slice : ',cartSlice);
