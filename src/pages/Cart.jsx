@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
-import { CartItemsList, CartTotals, SectionTitle } from "../components";
+import { Link, Outlet } from "react-router-dom";
+import { CartItemsList, CartTotal, SectionTitle } from "../components";
 
  
 const Cart = () => {
@@ -12,8 +12,27 @@ const user=null;
    <div className="lg:col-span-8">
       <CartItemsList/>
    </div>
+   <div className="lg:col-span-4 lg:pl-4">
+     <CartTotal/>
+    {
+      user ? (
+        <Link 
+        className="btn btn-primary mt-8 btn-block"
+        to={`/checkout`}
+        >
+           proceed to checkout        
+        </Link>
+      ) :(
+          <Link 
+          className="btn btn-primary mt-8 btn-block"
+          to={`/login`}
+          >
+           login to checkout
+          </Link>
+      )
+    }
+   </div>
   </div>
-  <CartTotals/>
   <Outlet/>
   </>
 };
